@@ -1,0 +1,8 @@
+{
+  "name": "cripto",
+  "app_id": "d4656bca",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
