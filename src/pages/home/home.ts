@@ -11,53 +11,81 @@ import { NavController } from 'ionic-angular';
 export class HomePage {
 
   public lineChartData:Array<any> = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'},
-    {data: [18, 48, 77, 9, 100, 27, 40], label: 'Series C'}
+    {data: [], label: 'last'},
+    {data: [], label: 'ask'},
+    {data: [], label: 'bid'},
+    {data: [], label: 'vwap'}
   ];
-  public lineChartLabels:Array<any> = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
+  public lineChartLabels:Array<any> = [];
   public lineChartOptions:any = {
-    responsive: true
+    responsive: true,
+    legend: {
+      labels: {
+        usePointStyle: true
+      }
+    },
+    scales: {
+      xAxes: [{
+        type: "time",
+        time: {
+          unit: 'hour',
+          unitStepSize: 1,
+          tooltipFormat: "DD/MM/YYYY, h:mm a",
+          displayFormats: {
+            hour: 'H:mm'
+          }
+        }
+      }]
+    }
   };
   public lineChartColors:Array<any> = [
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    { // last
+      backgroundColor: 'transparent',
+      borderColor: '#6495ED',
+      pointBackgroundColor: '#6495ED',
+      pointBorderColor: '#6495ED',
+      pointHoverBackgroundColor: '#00BFFF',
+      pointHoverBorderColor: '#6495ED)',
+      borderWidth: 1,
+      pointRadius: 1,
+      pointStyle: 'circle'
     },
-    { // dark grey
-      backgroundColor: 'rgba(77,83,96,0.2)',
-      borderColor: 'rgba(77,83,96,1)',
-      pointBackgroundColor: 'rgba(77,83,96,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    { // ask
+      backgroundColor: 'transparent',
+      borderColor: '#FA4141',
+      pointBackgroundColor: '#FA4141',
+      pointBorderColor: '#FA4141',
+      pointHoverBackgroundColor: '#F67575',
+      pointHoverBorderColor: '#FA4141',
+      borderWidth: 1,
+      pointRadius: 1,
+      pointStyle: 'rect'
     },
-    { // grey
-      backgroundColor: 'rgba(148,159,177,0.2)',
-      borderColor: 'rgba(148,159,177,1)',
-      pointBackgroundColor: 'rgba(148,159,177,1)',
-      pointBorderColor: '#fff',
-      pointHoverBackgroundColor: '#fff',
-      pointHoverBorderColor: 'rgba(148,159,177,0.8)'
+    { // bid
+      backgroundColor: 'transparent',
+      borderColor: '#56C78B',
+      pointBackgroundColor: '#56C78B',
+      pointBorderColor: '#56C78B',
+      pointHoverBackgroundColor: '#69E1A1',
+      pointHoverBorderColor: '#56C78B',
+      borderWidth: 1,
+      pointRadius: 1,
+      pointStyle: 'triangle'
+    },
+    { // vwap
+      backgroundColor: 'transparent',
+      borderColor: '#753396',
+      pointBackgroundColor: '#753396',
+      pointBorderColor: '#753396',
+      pointHoverBackgroundColor: '#9d55c1',
+      pointHoverBorderColor: '#753396',
+      borderWidth: 1,
+      pointRadius: 1,
+      pointStyle: 'rectRot'
     }
   ];
   public lineChartLegend:boolean = true;
   public lineChartType:string = 'line';
-
-  public randomize():void {
-    let _lineChartData:Array<any> = new Array(this.lineChartData.length);
-    for (let i = 0; i < this.lineChartData.length; i++) {
-      _lineChartData[i] = {data: new Array(this.lineChartData[i].data.length), label: this.lineChartData[i].label};
-      for (let j = 0; j < this.lineChartData[i].data.length; j++) {
-        _lineChartData[i].data[j] = Math.floor((Math.random() * 100) + 1);
-      }
-    }
-    this.lineChartData = _lineChartData;
-  }
 
   // events
   public chartClicked(e:any):void {
@@ -68,18 +96,40 @@ export class HomePage {
     console.log(e);
   }
 
-  getData() {
+  public getData(): void {
     var headers = new Headers();
     headers.append("Accept", 'application/json');
-    headers.append('Content-Type', 'application/json; charset=utf-8' );
+    headers.append('Content-Type', 'application/json' );
     let options = new RequestOptions({ headers: headers });
     let params = {
-      book: 'btc_mxn',
-      interval: '1 DAY'
+      book: 'eth_mxn',
+      interval: '12 HOUR'
     }
-    this.http.post("http://digitable.mx/cripto/api/getData.php", params, options)
-      .subscribe(data => {
-        alert(data['_body']);
+    this.http.get("http://digitable.mx/cripto/api/getData.php?book="+params.book+"&interval="+params.interval, options)
+      .subscribe(response => {
+        var data = response.json();
+        var length = Object.keys(data).length;
+        // var length = 5;
+        let _lineChartData:Array<any> = new Array(4);
+        let _lineChartLabels:Array<any> = new Array(length);
+
+        _lineChartData[0] = {data: new Array(length), label: 'last'};
+        _lineChartData[1] = {data: new Array(length), label: 'ask'};
+        _lineChartData[2] = {data: new Array(length), label: 'bid'};
+        _lineChartData[3] = {data: new Array(length), label: 'vwap'};
+
+        this.lineChartLabels.length = 0;
+        for (let i = 0; i < length; i++) {
+          let date = data[i].tick_date;
+          _lineChartData[0].data[i] = data[i].bitso_last;
+          _lineChartData[1].data[i] = data[i].bitso_ask;
+          _lineChartData[2].data[i] = data[i].bitso_bid;
+          _lineChartData[3].data[i] = data[i].bitso_vwap;
+          this.lineChartLabels.push(date);
+        }
+        this.lineChartData = _lineChartData;
+
+
        }, error => {
         alert("Error: " + error);// Error getting the data
       });
@@ -87,7 +137,7 @@ export class HomePage {
   }
 
   constructor(public navCtrl: NavController, public http: Http) {
-
+    this.getData();
   }
 
 }
