@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Http, Headers, RequestOptions } from '@angular/http';
 import { NavController } from 'ionic-angular';
 
 @Component({
@@ -67,7 +68,25 @@ export class HomePage {
     console.log(e);
   }
 
-  constructor(public navCtrl: NavController) {
+  getData() {
+    var headers = new Headers();
+    headers.append("Accept", 'application/json');
+    headers.append('Content-Type', 'application/json; charset=utf-8' );
+    let options = new RequestOptions({ headers: headers });
+    let params = {
+      book: 'btc_mxn',
+      interval: '1 DAY'
+    }
+    this.http.post("http://digitable.mx/cripto/api/getData.php", params, options)
+      .subscribe(data => {
+        alert(data['_body']);
+       }, error => {
+        alert("Error: " + error);// Error getting the data
+      });
+
+  }
+
+  constructor(public navCtrl: NavController, public http: Http) {
 
   }
 

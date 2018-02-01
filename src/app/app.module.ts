@@ -7,6 +7,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ChartsModule } from 'ng2-charts';
+import { HttpModule } from '@angular/http';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ChartsModule } from 'ng2-charts';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     IonicModule.forRoot(MyApp),
     ChartsModule
   ],
