@@ -1,14 +1,14 @@
 <ion-header>
-  <ion-navbar>
-    <ion-buttons start>
-      <button ion-button icon-only>
-        <ion-icon name="contact"></ion-icon>
+  <ion-navbar color="dark">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="toggleMenu()">
+        <ion-icon name="md-menu"></ion-icon>
       </button>
     </ion-buttons>
-
-    <ion-buttons end>
+    <ion-title text-center>Inicio</ion-title>
+    <ion-buttons right>
       <button ion-button icon-only>
-        <ion-icon name="search"></ion-icon>
+        <ion-icon name="md-exit"></ion-icon>
       </button>
     </ion-buttons>
   </ion-navbar>

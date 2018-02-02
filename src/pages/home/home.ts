@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
-import { NavController } from 'ionic-angular';
+import { NavController, MenuController } from 'ionic-angular';
 
 @Component({
   selector: 'page-home',
@@ -119,7 +119,6 @@ export class HomePage {
         var length = Object.keys(data).length;
         // var length = 5;
         let _lineChartData:Array<any> = new Array(4);
-        let _lineChartLabels:Array<any> = new Array(length);
 
         _lineChartData[0] = {data: new Array(length), label: 'last'};
         _lineChartData[1] = {data: new Array(length), label: 'ask'};
@@ -144,8 +143,12 @@ export class HomePage {
 
   }
 
-  constructor(public navCtrl: NavController, public http: Http) {
+  constructor(public navCtrl: NavController, public http: Http, private menuController: MenuController) {
     this.getData();
+  }
+
+  toggleMenu() {
+    this.menuController.toggle();
   }
 
 }
