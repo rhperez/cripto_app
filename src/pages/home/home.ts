@@ -36,6 +36,14 @@ export class HomePage {
           }
         }
       }]
+    },
+    tooltips: {
+      mode: "index",
+      intersect: false
+    },
+    hover: {
+      mode: "index",
+      intersect: false
     }
   };
   public lineChartColors:Array<any> = [
