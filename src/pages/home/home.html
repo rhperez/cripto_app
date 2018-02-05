@@ -31,5 +31,16 @@
       </div>
     </div>
   </div>
-  <button ion-button item-right (click)="getData()">Get data</button>
+
+  <ion-list>
+    <ion-item>
+      <ion-icon name="md-cash" item-start></ion-icon>
+      <ion-select #C interface="popover" (ionChange)="getData(C.value)">
+        <ion-option value="btc_mxn" selected>Bitcoin</ion-option>
+        <ion-option value="eth_mxn">Ethereum</ion-option>
+        <ion-option value="xrp_mxn">Ripple</ion-option>
+        <ion-option value="ltc_mxn">Litcoin</ion-option>
+      </ion-select>
+    </ion-item>
+  </ion-list>
 </ion-content>

@@ -104,13 +104,13 @@ export class HomePage {
     console.log(e);
   }
 
-  public getData(): void {
+  public getData(book:any): void {
     var headers = new Headers();
     headers.append("Accept", 'application/json');
     headers.append('Content-Type', 'application/json' );
     let options = new RequestOptions({ headers: headers });
     let params = {
-      book: 'eth_mxn',
+      book: book,
       interval: '12 HOUR'
     }
     this.http.get("http://digitable.mx/cripto/api/getData.php?book="+params.book+"&interval="+params.interval, options)
@@ -144,7 +144,7 @@ export class HomePage {
   }
 
   constructor(public navCtrl: NavController, public http: Http, private menuController: MenuController) {
-    this.getData();
+    this.getData('btc_mxn');
   }
 
   toggleMenu() {
