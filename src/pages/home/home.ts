@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NavController, MenuController } from 'ionic-angular';
 import { Tick } from '../../interfaces/tick.interface';
+import {COLORS} from '../../data/constants';
 
 @Component({
   selector: 'page-home',
@@ -108,6 +109,8 @@ export class HomePage {
     tick_date: ''
   };
 
+  public colors = COLORS;
+
   // events
   public chartClicked(e:any):void {
     console.log(e);
@@ -125,7 +128,7 @@ export class HomePage {
     let params = {
       book: book
     }
-    this.http.get("http://digitable.mx/cripto/api/getData.php?book="+params.book, options)
+    this.http.get("http://digitable.mx/cripto/api/getTick.php?book="+params.book, options)
       .subscribe(response => {
         var data = response.json();
         this.tick = {

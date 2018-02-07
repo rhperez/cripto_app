@@ -14,7 +14,7 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
   <ion-card>
     <ion-card-header>
       <ion-list>
@@ -31,10 +31,10 @@
     <ion-grid>
       <ion-row>
         <ion-col col-6>
-          <h3>Last</h3>
+          <h3 [style.color]="colors.LAST_PRIMARY">Last</h3>
         </ion-col>
         <ion-col col-6>
-          <h3>{{tick.last}}</h3>
+          <h3 [style.color]="colors.LAST_PRIMARY">{{tick.last}}</h3>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -47,46 +47,46 @@
       </ion-row>
       <ion-row>
         <ion-col col-6>
-          <h3>Ask</h3>
+          <h3 [style.color]="colors.ASK_PRIMARY">Ask</h3>
         </ion-col>
         <ion-col col-6>
-          <h3>{{tick.ask}}</h3>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col col-6>
-          <h3>Bid</h3>
-        </ion-col>
-        <ion-col col-6>
-          <h3>{{tick.bid}}</h3>
+          <h3 [style.color]="colors.ASK_PRIMARY">{{tick.ask}}</h3>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col col-6>
-          <h3>Vwap</h3>
+          <h3 [style.color]="colors.BID_PRIMARY">Bid</h3>
         </ion-col>
         <ion-col col-6>
-          <h3>{{tick.vwap}}</h3>
+          <h3 [style.color]="colors.BID_PRIMARY">{{tick.bid}}</h3>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-6>
+          <h3 [style.color]="colors.VWAP_PRIMARY">Vwap</h3>
+        </ion-col>
+        <ion-col col-6>
+          <h3 [style.color]="colors.VWAP_PRIMARY">{{tick.vwap}}</h3>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <div style="display: block;">
+            <canvas baseChart width="300" height="400"
+              [datasets]="lineChartData"
+              [labels]="lineChartLabels"
+              [options]="lineChartOptions"
+              [colors]="lineChartColors"
+              [legend]="lineChartLegend"
+              [chartType]="lineChartType"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)">
+            </canvas>
+          </div>
         </ion-col>
       </ion-row>
     </ion-grid>
   </ion-card>
-  <div class="row">
-    <div class="col-md-6">
-      <div style="display: block;">
-        <canvas baseChart width="300" height="400"
-          [datasets]="lineChartData"
-          [labels]="lineChartLabels"
-          [options]="lineChartOptions"
-          [colors]="lineChartColors"
-          [legend]="lineChartLegend"
-          [chartType]="lineChartType"
-          (chartHover)="chartHovered($event)"
-          (chartClick)="chartClicked($event)">
-        </canvas>
-      </div>
-    </div>
-  </div>
 
 
 </ion-content>
