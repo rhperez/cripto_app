@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import { NavController, MenuController } from 'ionic-angular';
+import { Tick } from '../../interfaces/tick.interface';
 
 @Component({
   selector: 'page-home',
@@ -95,6 +96,18 @@ export class HomePage {
   public lineChartLegend:boolean = true;
   public lineChartType:string = 'line';
 
+  private tick:Tick = {
+    id_tick: 0,
+    book: '',
+    last: 0,
+    volume: 0,
+    ask: 0,
+    bid: 0,
+    vwap: 0,
+    status: 0,
+    tick_date: ''
+  };
+
   // events
   public chartClicked(e:any):void {
     console.log(e);
@@ -102,6 +115,35 @@ export class HomePage {
 
   public chartHovered(e:any):void {
     console.log(e);
+  }
+
+  public getTick(book:any) {
+    var headers = new Headers();
+    headers.append("Accept", 'application/json');
+    headers.append('Content-Type', 'application/json' );
+    let options = new RequestOptions({ headers: headers });
+    let params = {
+      book: book
+    }
+    this.http.get("http://digitable.mx/cripto/api/getData.php?book="+params.book, options)
+      .subscribe(response => {
+        var data = response.json();
+        this.tick = {
+          id_tick: data[0].id_tick,
+          book: data[0].bitso_book,
+          last: data[0].bitso_last,
+          volume: data[0].bitso_volume,
+          ask: data[0].bitso_ask,
+          bid: data[0].bitso_bid,
+          vwap: data[0].bitso_vwap,
+          status: data[0].status,
+          tick_date: data[0].created_at
+        };
+       }, error => {
+        alert("Error: " + error);// Error getting the data
+      });
+
+
   }
 
   public getData(book:any): void {
@@ -128,10 +170,10 @@ export class HomePage {
         this.lineChartLabels.length = 0;
         for (let i = 0; i < length; i++) {
           let date = data[i].tick_date;
-          _lineChartData[0].data[i] = data[i].bitso_last;
-          _lineChartData[1].data[i] = data[i].bitso_ask;
-          _lineChartData[2].data[i] = data[i].bitso_bid;
-          _lineChartData[3].data[i] = data[i].bitso_vwap;
+          _lineChartData[0].data[i] = data[i].status == 1 ? data[i].bitso_last : NaN;
+          _lineChartData[1].data[i] = data[i].status == 1 ? data[i].bitso_ask : NaN;
+          _lineChartData[2].data[i] = data[i].status == 1 ? data[i].bitso_bid : NaN;
+          _lineChartData[3].data[i] = data[i].status == 1 ? data[i].bitso_vwap : NaN;
           this.lineChartLabels.push(date);
         }
         this.lineChartData = _lineChartData;
@@ -144,6 +186,7 @@ export class HomePage {
   }
 
   constructor(public navCtrl: NavController, public http: Http, private menuController: MenuController) {
+    this.getTick('btc_mxn');
     this.getData('btc_mxn');
   }
 
