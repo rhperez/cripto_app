@@ -12,6 +12,10 @@ import {COLORS} from '../../data/constants';
 
 export class HomePage {
 
+  public colors = COLORS;
+  private book = 'btc_mxn';
+  private title = 'Mercado de Bitcoin';
+
   public lineChartData:Array<any> = [
     {data: [], label: 'last'},
     {data: [], label: 'ask'},
@@ -51,44 +55,44 @@ export class HomePage {
   public lineChartColors:Array<any> = [
     { // last
       backgroundColor: 'transparent',
-      borderColor: '#6495ED',
-      pointBackgroundColor: '#6495ED',
-      pointBorderColor: '#6495ED',
-      pointHoverBackgroundColor: '#00BFFF',
-      pointHoverBorderColor: '#6495ED)',
+      borderColor: this.colors.LAST_PRIMARY,
+      pointBackgroundColor: this.colors.LAST_PRIMARY,
+      pointBorderColor: this.colors.LAST_PRIMARY,
+      pointHoverBackgroundColor: this.colors.LAST_SECONDARY,
+      pointHoverBorderColor: this.colors.LAST_PRIMARY,
       borderWidth: 1,
       pointRadius: 1,
       pointStyle: 'circle'
     },
     { // ask
       backgroundColor: 'transparent',
-      borderColor: '#FA4141',
-      pointBackgroundColor: '#FA4141',
-      pointBorderColor: '#FA4141',
-      pointHoverBackgroundColor: '#F67575',
-      pointHoverBorderColor: '#FA4141',
+      borderColor: this.colors.ASK_PRIMARY,
+      pointBackgroundColor: this.colors.ASK_PRIMARY,
+      pointBorderColor: this.colors.ASK_PRIMARY,
+      pointHoverBackgroundColor: this.colors.ASK_SECONDARY,
+      pointHoverBorderColor: this.colors.ASK_PRIMARY,
       borderWidth: 1,
       pointRadius: 1,
       pointStyle: 'rect'
     },
     { // bid
       backgroundColor: 'transparent',
-      borderColor: '#56C78B',
-      pointBackgroundColor: '#56C78B',
-      pointBorderColor: '#56C78B',
-      pointHoverBackgroundColor: '#69E1A1',
-      pointHoverBorderColor: '#56C78B',
+      borderColor: this.colors.BID_PRIMARY,
+      pointBackgroundColor: this.colors.BID_PRIMARY,
+      pointBorderColor: this.colors.BID_PRIMARY,
+      pointHoverBackgroundColor: this.colors.BID_SECONDARY,
+      pointHoverBorderColor: this.colors.BID_PRIMARY,
       borderWidth: 1,
       pointRadius: 1,
       pointStyle: 'triangle'
     },
     { // vwap
       backgroundColor: 'transparent',
-      borderColor: '#753396',
-      pointBackgroundColor: '#753396',
-      pointBorderColor: '#753396',
-      pointHoverBackgroundColor: '#9d55c1',
-      pointHoverBorderColor: '#753396',
+      borderColor: this.colors.VWAP_PRIMARY,
+      pointBackgroundColor: this.colors.VWAP_PRIMARY,
+      pointBorderColor: this.colors.VWAP_PRIMARY,
+      pointHoverBackgroundColor: this.colors.VWAP_SECONDARY,
+      pointHoverBorderColor: this.colors.VWAP_PRIMARY,
       borderWidth: 1,
       pointRadius: 1,
       pointStyle: 'rectRot'
@@ -109,8 +113,6 @@ export class HomePage {
     tick_date: ''
   };
 
-  public colors = COLORS;
-
   // events
   public chartClicked(e:any):void {
     console.log(e);
@@ -120,13 +122,13 @@ export class HomePage {
     console.log(e);
   }
 
-  public getTick(book:any) {
+  public getTick() {
     var headers = new Headers();
     headers.append("Accept", 'application/json');
     headers.append('Content-Type', 'application/json' );
     let options = new RequestOptions({ headers: headers });
     let params = {
-      book: book
+      book: this.book
     }
     this.http.get("http://digitable.mx/cripto/api/getTick.php?book="+params.book, options)
       .subscribe(response => {
@@ -149,20 +151,19 @@ export class HomePage {
 
   }
 
-  public getData(book:any): void {
+  public getData(): void {
     var headers = new Headers();
     headers.append("Accept", 'application/json');
     headers.append('Content-Type', 'application/json' );
     let options = new RequestOptions({ headers: headers });
     let params = {
-      book: book,
+      book: this.book,
       interval: '12 HOUR'
     }
     this.http.get("http://digitable.mx/cripto/api/getData.php?book="+params.book+"&interval="+params.interval, options)
       .subscribe(response => {
         var data = response.json();
         var length = Object.keys(data).length;
-        // var length = 5;
         let _lineChartData:Array<any> = new Array(4);
 
         _lineChartData[0] = {data: new Array(length), label: 'last'};
@@ -188,9 +189,27 @@ export class HomePage {
 
   }
 
+  public refreshBook(): void {
+    switch (this.book) {
+      case 'btc_mxn':
+        this.title = 'Mercado de Bitcoin';
+        break;
+      case 'eth_mxn':
+        this.title = 'Mercado de Ethereum';
+        break;
+      case 'xrp_mxn':
+        this.title = 'Mercado de Ripple';
+        break;
+      case 'ltc_mxn':
+        this.title = 'Mercado de Litcoin';
+        break;
+    }
+    this.getTick();
+    this.getData();
+  }
+
   constructor(public navCtrl: NavController, public http: Http, private menuController: MenuController) {
-    this.getTick('btc_mxn');
-    this.getData('btc_mxn');
+    this.refreshBook();
   }
 
   toggleMenu() {

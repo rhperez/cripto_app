@@ -9,3 +9,8 @@ export interface Tick {
   tick_date: string;
   status: number;
 }
+
+export interface ChartData {
+  data: Tick[],
+  label: string
+}

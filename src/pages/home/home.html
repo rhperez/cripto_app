@@ -15,18 +15,25 @@
 </ion-header>
 
 <ion-content>
+  <ion-toolbar color="dark">
+    <ion-segment [(ngModel)]="book">
+      <ion-segment-button value="btc_mxn" (click)="refreshBook(book)">
+        Bitcoin
+      </ion-segment-button>
+      <ion-segment-button value="eth_mxn" (click)="refreshBook(book)">
+        Ethereum
+      </ion-segment-button>
+      <ion-segment-button value="xrp_mxn" (click)="refreshBook(book)">
+        Ripple
+      </ion-segment-button>
+      <ion-segment-button value="ltc_mxn" (click)="refreshBook(book)">
+        Litcoin
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
   <ion-card>
     <ion-card-header>
-      <ion-list>
-        <ion-item>
-          <ion-select #C interface="popover" (ionChange)="getData(C.value);getTick(C.value)">
-            <ion-option value="btc_mxn" selected>Bitcoin</ion-option>
-            <ion-option value="eth_mxn">Ethereum</ion-option>
-            <ion-option value="xrp_mxn">Ripple</ion-option>
-            <ion-option value="ltc_mxn">Litcoin</ion-option>
-          </ion-select>
-        </ion-item>
-      </ion-list>
+      <h2 text-center>{{title}}</h2>
     </ion-card-header>
     <ion-grid>
       <ion-row>
