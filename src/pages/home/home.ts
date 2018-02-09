@@ -12,18 +12,18 @@ import {COLORS} from '../../data/constants';
 
 export class HomePage {
 
-  public colors = COLORS;
+  private colors = COLORS;
   private book = 'btc_mxn';
   private title = 'Mercado de Bitcoin';
 
-  public lineChartData:Array<any> = [
+  public lineChartData: Array <any> = [
     {data: [], label: 'last'},
     {data: [], label: 'ask'},
     {data: [], label: 'bid'},
     {data: [], label: 'vwap'}
   ];
-  public lineChartLabels:Array<any> = [];
-  public lineChartOptions:any = {
+  public lineChartLabels: Array <any> = [];
+  public lineChartOptions: any = {
     responsive: true,
     legend: {
       labels: {
@@ -52,7 +52,7 @@ export class HomePage {
       intersect: false
     }
   };
-  public lineChartColors:Array<any> = [
+  public lineChartColors: Array <any> = [
     { // last
       backgroundColor: 'transparent',
       borderColor: this.colors.LAST_PRIMARY,
@@ -98,11 +98,11 @@ export class HomePage {
       pointStyle: 'rectRot'
     }
   ];
-  public lineChartLegend:boolean = true;
-  public lineChartType:string = 'line';
+  public lineChartLegend: boolean = true;
+  public lineChartType: string = 'line';
 
   private tick:Tick = {
-    id_tick: 0,
+    id_tick : 0,
     book: '',
     last: 0,
     volume: 0,
@@ -114,11 +114,11 @@ export class HomePage {
   };
 
   // events
-  public chartClicked(e:any):void {
+  public chartClicked(e: any): void {
     console.log(e);
   }
 
-  public chartHovered(e:any):void {
+  public chartHovered(e: any): void {
     console.log(e);
   }
 
@@ -201,7 +201,7 @@ export class HomePage {
         this.title = 'Mercado de Ripple';
         break;
       case 'ltc_mxn':
-        this.title = 'Mercado de Litcoin';
+        this.title = 'Mercado de Litecoin';
         break;
     }
     this.getTick();

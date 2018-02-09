@@ -1,17 +1,26 @@
 <ion-menu [content]="content" color="dark">
-  <ion-content>
-    <ion-list>
-      <button ion-item (click)="openPage(homePage)">
-        Inicio
+  <ion-header>
+    <ion-toolbar color="dark">
+      <ion-title>Opciones</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content style="background:#222;">
+    <ion-list no-lines>
+      <button ion-item (click)="openPage(homePage)" color="dark">
+        <ion-icon name="md-pulse" item-start color='primary'></ion-icon>
+        <span style="color:#488aff;">Actividad</span>
       </button>
-      <button ion-item (click)="openPage(finanzasPage)">
-        Mis Finanzas
+      <button ion-item (click)="openPage(finanzasPage)" color="dark">
+        <ion-icon name="md-calculator" item-start color='primary'></ion-icon>
+        <span style="color:#488aff;">Mis Finanzas</span>
       </button>
-      <button ion-item (click)="openPage(estadisticasPage)">
-        Estadísticas
+      <button ion-item (click)="openPage(estadisticasPage)" color="dark">
+        <ion-icon name="md-stats" item-start color='primary'></ion-icon>
+        <span style="color:#488aff;">Estadísticas</span>
       </button>
-      <button ion-item (click)="openPage(settingsPage)">
-        Ajustes
+      <button ion-item (click)="openPage(settingsPage)" color="dark">
+        <ion-icon name="md-settings" item-start color='primary'></ion-icon>
+        <span style="color:#488aff;">Ajustes</span>
       </button>
     </ion-list>
   </ion-content>
